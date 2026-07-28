@@ -19,18 +19,21 @@ const createdUser = await prisma.user.create({
    name,
     email,
     password: hashedPassword,
-   
+   profile:{
+    create:{
+      profilePhoto
+    }
+   }
   }
-
   
 })
 
- await prisma.profile.create({
-  data:{
-    userid:createdUser.id,
-    profilePhoto
-  }
-})
+//  await prisma.profile.create({
+//   data:{
+//     userid:createdUser.id,
+//     profilePhoto
+//   }
+// })
 
 
 const user = await prisma.user.findUnique({

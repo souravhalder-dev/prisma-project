@@ -1,16 +1,14 @@
 
 import httpStatus from "http-status";
-import { Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { useServiceregdB } from "./user.service";
+import { catchAsyncF } from "../../utils/catchAsync";
 
 
-const createdUser = async (req:Request, res:Response) => {
-try {
+const createdUser = catchAsyncF (async (req:Request,res:Response,next:NextFunction)=>{
     const payload= req.body;
 
- const user =await  useServiceregdB.registereddB(payload)
-
-
+ const user = await  useServiceregdB.registereddB(payload)
 
   res.status(200).json({
     status: true,
@@ -20,17 +18,9 @@ try {
       user }
   });
 
-} catch (error) {
-    console.log(error)
-    res.status(500).json({
-        status:false,
-        statusCode:httpStatus.INTERNAL_SERVER_ERROR,
-        message:"Internal server error",
-        error:error
-    })
-}
+} )
 
-}
+
 export const userControler={
     createdUser
 }
